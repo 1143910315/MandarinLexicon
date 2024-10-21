@@ -4,6 +4,9 @@
 - 实际上来源是Unihan Database的https://unicode.org/L2/L2019/19160-adding-ktghz-2013.pdf
 - 这两个来源并不包含全部汉字，很多汉字并不在这两个里
 
+[Unihan Database](https://www.unicode.org/charts/unihan.html)
+- 这是最全的字库，可以在[UCD](https://www.unicode.org/Public/UCD/latest/ucd/)下载Unihan.zip得到许多汉字，以及拼音等信息
+
 [华宇野风系统词库](http://bbs.pinyin.thunisoft.com/forum.php?mod=viewthread&tid=30049)
 - 这是野风制作的词库
 
