@@ -1,4 +1,5 @@
 add_rules("mode.debug", "mode.release", "mode.releasedbg")
+add_rules("plugin.vsxmake.autoupdate")
 
 if is_mode("release") then
     set_runtimes("MD")
