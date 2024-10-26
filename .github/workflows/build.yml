@@ -50,13 +50,21 @@ jobs:
     strategy:
       matrix:
         config:
-          - { mode: debug, arch: x86, platform: linux }
-          - { mode: release, arch: arm64ec, platform: linux }
+          - { mode: debug, arch: x86_64, platform: linux }
+          - { mode: release, arch: x86_64, platform: linux }
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
       - uses: xmake-io/github-action-setup-xmake@v1
+
+      - name: Setup GCC
+        run: |
+          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+          sudo apt-get update
+          sudo apt-get install -y gcc-14 g++-14
+          gcc --version
+          g++ --version
 
       - uses: actions/cache@v4
         with:
@@ -70,7 +78,7 @@ jobs:
           xmake repo -u
 
       - run: |
-          xmake f -m ${{ matrix.config.mode }} -v -y
+          xmake f -a ${{ matrix.config.arch }} -m ${{ matrix.config.mode }} -v -y
 
       - run: |
           xmake -v -y
