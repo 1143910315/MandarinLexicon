@@ -69,6 +69,46 @@ jobs:
           LATEST_GCC_PACKAGE=$(apt-cache search gcc | grep '^gcc-[0-9]* ' | sort -rV | head -n 1 | cut -d ' ' -f 1)
           echo "latest_gcc_package=$LATEST_GCC_PACKAGE" >> $GITHUB_OUTPUT
 
+      - name: List GPP package01
+        run: |
+          apt-cache search g++
+
+      - name: List GPP package11
+        run: |
+          apt-cache search g++ | grep '^g++-[0-9]* '
+
+      - name: List GPP package21
+        run: |
+          apt-cache search g++ | grep '^g++-[0-9]* ' | sort -rV
+
+      - name: List GPP package31
+        run: |
+          apt-cache search g++ | grep '^g++-[0-9]* ' | sort -rV | head -n 1
+
+      - name: List GPP package41
+        run: |
+          apt-cache search g++ | grep '^g++-[0-9]* ' | sort -rV | head -n 1 | cut -d ' ' -f 1
+
+      - name: List GPP package0
+        run: |
+          apt-cache search gcc
+
+      - name: List GPP package1
+        run: |
+          apt-cache search gcc | grep '^g++-[0-9]* '
+
+      - name: List GPP package2
+        run: |
+          apt-cache search gcc | grep '^g++-[0-9]* ' | sort -rV
+
+      - name: List GPP package3
+        run: |
+          apt-cache search gcc | grep '^g++-[0-9]* ' | sort -rV | head -n 1
+
+      - name: List GPP package4
+        run: |
+          apt-cache search gcc | grep '^g++-[0-9]* ' | sort -rV | head -n 1 | cut -d ' ' -f 1
+
       - name: Last Gpp package
         id: gpp-package
         run: |
