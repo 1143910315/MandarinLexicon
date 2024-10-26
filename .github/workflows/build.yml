@@ -64,7 +64,6 @@ jobs:
           sudo apt-get update
 
       - name: List GCC package
-        id: gcc-package
         run: |
           apt-cache search gcc | grep '^gcc-\d+\s' | sort -rV
 
