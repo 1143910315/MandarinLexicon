@@ -63,11 +63,16 @@ jobs:
           sudo add-apt-repository ppa:ubuntu-toolchain-r/test
           sudo apt-get update
 
+      - name: List GCC package
+        id: gcc-package
+        run: |
+          apt-cache search gcc | grep '^gcc-\d+\s' | sort -rV
+
       - name: Last GCC package
         id: gcc-package
         run: |
           LATEST_GCC_PACKAGE=$(apt-cache search gcc | grep '^gcc-\d+\s' | sort -rV | head -n 1 | cut -d ' ' -f 1)
-          echo "::set-output name=latest_gcc_package::$LATEST_GCC_PACKAGE"
+          echo "{latest_gcc_package}=$LATEST_GCC_PACKAGE" >> $GITHUB_OUTPUT
 
       - name: Setup GCC
         run: |
