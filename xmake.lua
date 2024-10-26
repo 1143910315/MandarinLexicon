@@ -25,6 +25,7 @@ target("MandarinLexicon")
         "leveldb"
     )
     set_kind("binary")
+    add_includedirs("src")
     add_headerfiles("src**/*.h")
     add_files("src**/*.cpp")
     set_languages("clatest", "cxxlatest")

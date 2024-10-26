@@ -36,13 +36,13 @@ jobs:
           xmake repo -u
 
       - run: |
-          xmake f -a ${{ matrix.arch }} -m ${{ matrix.mode }} -p ${{ matrix.platform }} -v -y
+          xmake f -a ${{ matrix.config.arch }} -m ${{ matrix.config.mode }} -p ${{ matrix.config.platform }} -v -y
 
       - run: |
           xmake -v -y
 
       - uses: actions/upload-artifact@v4
         with:
-          name: ${{ github.event.repository.name }}-${{ matrix.mode }}-${{ matrix.platform }}-${{ matrix.arch }}-${{ github.sha }}
+          name: ${{ github.event.repository.name }}-${{ matrix.config.mode }}-${{ matrix.config.platform }}-${{ matrix.config.arch }}-${{ github.sha }}
           path: |
-            build/${{ matrix.platform }}/${{ matrix.arch }}/${{ matrix.mode }}/
+            build/${{ matrix.config.platform }}/${{ matrix.config.arch }}/${{ matrix.config.mode }}/
