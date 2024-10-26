@@ -70,7 +70,7 @@ jobs:
       - name: Last GCC package
         id: gcc-package
         run: |
-          LATEST_GCC_PACKAGE=$(apt-cache search gcc | grep '^gcc-\d+\s' | sort -rV | head -n 1 | cut -d ' ' -f 1)
+          LATEST_GCC_PACKAGE=$(apt-cache search gcc | grep '^gcc-[0-9]* ' | sort -rV | head -n 1 | cut -d ' ' -f 1)
           echo "{latest_gcc_package}=$LATEST_GCC_PACKAGE" >> $GITHUB_OUTPUT
 
       - name: Setup GCC
