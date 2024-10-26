@@ -7,13 +7,25 @@ else
     set_runtimes("MDd")
 end
 
+add_requires("cpp-httplib", {configs = {ssl = true}})
+add_requireconfs("cpp-httplib.openssl3", {override = true, version = "3.3.1"})
+add_requires("nlohmann_json")
+add_requires("leveldb")
+
 target("MandarinLexicon")
     add_cxflags(
         "/utf-8",
-        "/W4"
+        "/W4",
+        "/INCREMENTAL"
+    )
+    add_packages(
+        "nlohmann_json",
+        "cpp-httplib",
+        "uwebsockets",
+        "leveldb"
     )
     set_kind("binary")
-    -- add_headerfiles("src/**.h")
-    add_files("src/**.cpp")
+    add_headerfiles("src**/*.h")
+    add_files("src**/*.cpp")
     set_languages("clatest", "cxxlatest")
     set_symbols("debug", "debug", "edit")
