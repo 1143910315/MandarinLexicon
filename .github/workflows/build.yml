@@ -80,7 +80,6 @@ jobs:
           sudo apt-get install -y ${{ steps.gcc-package.outputs.latest_gcc_package }} ${{ steps.gpp-package.outputs.latest_gpp_package }}
           sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/${{ steps.gcc-package.outputs.latest_gcc_package }} 60 --slave /usr/bin/g++ g++ /usr/bin/${{ steps.gpp-package.outputs.latest_gpp_package }}
           sudo update-alternatives --set gcc /usr/bin/${{ steps.gcc-package.outputs.latest_gcc_package }}
-          sudo update-alternatives --set g++ /usr/bin/${{ steps.gpp-package.outputs.latest_gpp_package }}
 
       - name: GCC version
         run: |
