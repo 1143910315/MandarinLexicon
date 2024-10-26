@@ -67,6 +67,18 @@ jobs:
         run: |
           apt-cache search gcc | grep '^gcc-[0-9]* '
 
+      - name: List GCC package2
+        run: |
+          apt-cache search gcc | grep '^gcc-[0-9]* ' | sort -rV
+
+      - name: List GCC package3
+        run: |
+          apt-cache search gcc | grep '^gcc-[0-9]* ' | sort -rV | head -n 1
+
+      - name: List GCC package4
+        run: |
+          apt-cache search gcc | grep '^gcc-[0-9]* ' | sort -rV | head -n 1 | cut -d ' ' -f 1
+
       - name: Last GCC package
         id: gcc-package
         run: |
