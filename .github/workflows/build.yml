@@ -50,15 +50,7 @@ jobs:
     strategy:
       matrix:
         config:
-          # - { mode: debug, arch: x86, platform: linux }
-          - { mode: debug, arch: x64, platform: linux }
-          # - { mode: debug, arch: arm, platform: linux }
-          # - { mode: debug, arch: arm64, platform: linux }
-          - { mode: debug, arch: arm64ec, platform: linux }
-          # - { mode: release, arch: x86, platform: linux }
-          # - { mode: release, arch: x64, platform: linux }
-          - { mode: release, arch: arm, platform: linux }
-          - { mode: release, arch: arm64, platform: linux }
+          - { mode: debug, arch: x86, platform: linux }
           - { mode: release, arch: arm64ec, platform: linux }
     runs-on: ubuntu-latest
     steps:
@@ -78,7 +70,7 @@ jobs:
           xmake repo -u
 
       - run: |
-          xmake f -a ${{ matrix.config.arch }} -m ${{ matrix.config.mode }} -p ${{ matrix.config.platform }} -v -y
+          xmake f -m ${{ matrix.config.mode }} -v -y
 
       - run: |
           xmake -v -y
