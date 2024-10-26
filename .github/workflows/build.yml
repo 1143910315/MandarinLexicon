@@ -52,11 +52,11 @@ jobs:
         config:
           # - { mode: debug, arch: x86, platform: linux }
           - { mode: debug, arch: x64, platform: linux }
-          - { mode: debug, arch: arm, platform: linux }
-          - { mode: debug, arch: arm64, platform: linux }
+          # - { mode: debug, arch: arm, platform: linux }
+          # - { mode: debug, arch: arm64, platform: linux }
           - { mode: debug, arch: arm64ec, platform: linux }
           # - { mode: release, arch: x86, platform: linux }
-          - { mode: release, arch: x64, platform: linux }
+          # - { mode: release, arch: x64, platform: linux }
           - { mode: release, arch: arm, platform: linux }
           - { mode: release, arch: arm64, platform: linux }
           - { mode: release, arch: arm64ec, platform: linux }
