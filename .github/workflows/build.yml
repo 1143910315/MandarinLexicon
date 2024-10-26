@@ -7,46 +7,17 @@ jobs:
   build-windows:
     strategy:
       matrix:
-        debug_x86:
-          mode: debug
-          arch: x86
-          platform: windows
-        debug_x64:
-          mode: debug
-          arch: x64
-          platform: windows
-        debug_arm:
-          mode: debug
-          arch: arm
-          platform: windows
-        debug_arm64:
-          mode: debug
-          arch: arm64
-          platform: windows
-        debug_arm64ec:
-          mode: debug
-          arch: arm64ec
-          platform: windows
-        release_x86:
-          mode: release
-          arch: x86
-          platform: windows
-        release_x64:
-          mode: release
-          arch: x64
-          platform: windows
-        release_arm:
-          mode: release
-          arch: arm
-          platform: windows
-        release_arm64:
-          mode: release
-          arch: arm64
-          platform: windows
-        release_arm64ec:
-          mode: release
-          arch: arm64ec
-          platform: windows
+        config:
+          - { mode: debug, arch: x86, platform: windows }
+          - { mode: debug, arch: x64, platform: windows }
+          - { mode: debug, arch: arm, platform: windows }
+          - { mode: debug, arch: arm64, platform: windows }
+          - { mode: debug, arch: arm64ec, platform: windows }
+          - { mode: release, arch: x86, platform: windows }
+          - { mode: release, arch: x64, platform: windows }
+          - { mode: release, arch: arm, platform: windows }
+          - { mode: release, arch: arm64, platform: windows }
+          - { mode: release, arch: arm64ec, platform: windows }
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
