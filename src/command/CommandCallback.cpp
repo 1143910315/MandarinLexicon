@@ -11,6 +11,7 @@ void command::CommandCallback::addCommand(std::string title, std::function<void(
     callbackFunction = callback;
 }
 
-void command::CommandCallback::execute() {
+bool command::CommandCallback::execute() {
     callbackFunction();
+    return true;
 }

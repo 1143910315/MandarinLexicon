@@ -16,7 +16,7 @@ namespace command {
         }
         virtual std::shared_ptr<Command> addCommand(std::string title) = 0;
         virtual void addCommand(std::string title, std::function<void()> callback) = 0;
-        virtual void execute() = 0;
+        virtual bool execute() = 0;
     protected:
         // 禁止外部构造
         Command() = default;

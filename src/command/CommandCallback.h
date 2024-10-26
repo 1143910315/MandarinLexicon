@@ -10,7 +10,7 @@ namespace command {
         const CommandCallback& operator=(const CommandCallback& single) = delete;
         std::shared_ptr<Command> addCommand(std::string title) override;
         void addCommand(std::string title, std::function<void()> callback) override;
-        void execute() override;
+        bool execute() override;
     private:
 
         std::function<void()> callbackFunction;

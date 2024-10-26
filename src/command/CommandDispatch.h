@@ -10,7 +10,7 @@ namespace command {
         CommandDispatch() = default;
         std::shared_ptr<Command> addCommand(std::string title) override;
         void addCommand(std::string title, std::function<void()> callback) override;
-        void execute() override;
+        bool execute() override;
     private:
         // 禁止外部拷贝构造
         CommandDispatch(const CommandDispatch& single) = delete;
