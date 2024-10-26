@@ -12,10 +12,12 @@ jobs:
           - { mode: debug, arch: x64, platform: windows }
           - { mode: debug, arch: arm, platform: windows }
           - { mode: debug, arch: arm64, platform: windows }
+          # - { mode: debug, arch: arm64ec, platform: windows }
           - { mode: release, arch: x86, platform: windows }
           - { mode: release, arch: x64, platform: windows }
           - { mode: release, arch: arm, platform: windows }
           - { mode: release, arch: arm64, platform: windows }
+          # - { mode: release, arch: arm64ec, platform: windows }
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -45,44 +47,44 @@ jobs:
           path: |
             build/${{ matrix.config.platform }}/${{ matrix.config.arch }}/${{ matrix.config.mode }}/
   build-linux:
-      strategy:
-        matrix:
-          config:
-            - { mode: debug, arch: x86, platform: linux }
-            - { mode: debug, arch: x64, platform: linux }
-            - { mode: debug, arch: arm, platform: linux }
-            - { mode: debug, arch: arm64, platform: linux }
-            - { mode: debug, arch: arm64ec, platform: linux }
-            - { mode: release, arch: x86, platform: linux }
-            - { mode: release, arch: x64, platform: linux }
-            - { mode: release, arch: arm, platform: linux }
-            - { mode: release, arch: arm64, platform: linux }
-            - { mode: release, arch: arm64ec, platform: linux }
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v4
+    strategy:
+      matrix:
+        config:
+          # - { mode: debug, arch: x86, platform: linux }
+          - { mode: debug, arch: x64, platform: linux }
+          - { mode: debug, arch: arm, platform: linux }
+          - { mode: debug, arch: arm64, platform: linux }
+          - { mode: debug, arch: arm64ec, platform: linux }
+          # - { mode: release, arch: x86, platform: linux }
+          - { mode: release, arch: x64, platform: linux }
+          - { mode: release, arch: arm, platform: linux }
+          - { mode: release, arch: arm64, platform: linux }
+          - { mode: release, arch: arm64ec, platform: linux }
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-        - uses: xmake-io/github-action-setup-xmake@v1
+      - uses: xmake-io/github-action-setup-xmake@v1
 
-        - uses: actions/cache@v4
-          with:
-            path: |
-              ~/AppData/Local/.xmake
-            key: xmake-${{ hashFiles('xmake.lua') }}
-            restore-keys: |
-              xmake-
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/AppData/Local/.xmake
+          key: xmake-${{ hashFiles('xmake.lua') }}
+          restore-keys: |
+            xmake-
 
-        - run: |
-            xmake repo -u
+      - run: |
+          xmake repo -u
 
-        - run: |
-            xmake f -a ${{ matrix.config.arch }} -m ${{ matrix.config.mode }} -p ${{ matrix.config.platform }} -v -y
+      - run: |
+          xmake f -a ${{ matrix.config.arch }} -m ${{ matrix.config.mode }} -p ${{ matrix.config.platform }} -v -y
 
-        - run: |
-            xmake -v -y
+      - run: |
+          xmake -v -y
 
-        - uses: actions/upload-artifact@v4
-          with:
-            name: ${{ github.event.repository.name }}-${{ matrix.config.mode }}-${{ matrix.config.platform }}-${{ matrix.config.arch }}-${{ github.sha }}
-            path: |
-              build/${{ matrix.config.platform }}/${{ matrix.config.arch }}/${{ matrix.config.mode }}/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.event.repository.name }}-${{ matrix.config.mode }}-${{ matrix.config.platform }}-${{ matrix.config.arch }}-${{ github.sha }}
+          path: |
+            build/${{ matrix.config.platform }}/${{ matrix.config.arch }}/${{ matrix.config.mode }}/
