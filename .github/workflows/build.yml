@@ -63,33 +63,24 @@ jobs:
           sudo add-apt-repository ppa:ubuntu-toolchain-r/test
           sudo apt-get update
 
-      - name: List GCC package1
-        run: |
-          apt-cache search gcc | grep '^gcc-[0-9]* '
-
-      - name: List GCC package2
-        run: |
-          apt-cache search gcc | grep '^gcc-[0-9]* ' | sort -rV
-
-      - name: List GCC package3
-        run: |
-          apt-cache search gcc | grep '^gcc-[0-9]* ' | sort -rV | head -n 1
-
-      - name: List GCC package4
-        run: |
-          apt-cache search gcc | grep '^gcc-[0-9]* ' | sort -rV | head -n 1 | cut -d ' ' -f 1
-
       - name: Last GCC package
         id: gcc-package
         run: |
           LATEST_GCC_PACKAGE=$(apt-cache search gcc | grep '^gcc-[0-9]* ' | sort -rV | head -n 1 | cut -d ' ' -f 1)
           echo "latest_gcc_package=$LATEST_GCC_PACKAGE" >> $GITHUB_OUTPUT
 
+      - name: Last Gpp package
+        id: gpp-package
+        run: |
+          LATEST_GPP_PACKAGE=$(apt-cache search gcc | grep '^g++-[0-9]* ' | sort -rV | head -n 1 | cut -d ' ' -f 1)
+          echo "latest_gpp_package=$LATEST_GPP_PACKAGE" >> $GITHUB_OUTPUT
+
       - name: Setup GCC
         run: |
-          sudo apt-get install -y ${{ steps.gcc-package.outputs.latest_gcc_package }} g++-13
-          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/${{ steps.gcc-package.outputs.latest_gcc_package }} 60 --slave /usr/bin/g++ g++ /usr/bin/g++-13
+          sudo apt-get install -y ${{ steps.gcc-package.outputs.latest_gcc_package }} ${{ steps.gpp-package.outputs.latest_gpp_package }}
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/${{ steps.gcc-package.outputs.latest_gcc_package }} 60 --slave /usr/bin/g++ g++ /usr/bin/${{ steps.gpp-package.outputs.latest_gpp_package }}
           sudo update-alternatives --set gcc /usr/bin/${{ steps.gcc-package.outputs.latest_gcc_package }}
+          sudo update-alternatives --set g++ /usr/bin/${{ steps.gpp-package.outputs.latest_gpp_package }}
 
       - name: GCC version
         run: |
