@@ -65,7 +65,7 @@ jobs:
 
       - name: List GCC package
         run: |
-          apt-cache search gcc | grep '^gcc-\d+\s' | sort -rV
+          apt-cache search gcc | grep '^gcc-'
 
       - name: Last GCC package
         id: gcc-package
