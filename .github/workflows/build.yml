@@ -58,10 +58,10 @@ jobs:
 
       - uses: xmake-io/github-action-setup-xmake@v1
 
-      - name: GCC version
+      - name: List available GCC versions
         run: |
-          gcc --version
-          g++ --version
+          apt-cache search gcc | grep '^gcc-' | grep -v 'multilib$'
+          apt-cache search g++ | grep '^g++-' | grep -v 'multilib$'
 
       - name: Setup GCC
         run: |
