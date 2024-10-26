@@ -58,13 +58,21 @@ jobs:
 
       - uses: xmake-io/github-action-setup-xmake@v1
 
-      - name: Setup GCC
+      - name: GCC version
         run: |
           gcc --version
           g++ --version
+
+      - name: Setup GCC
+        run: |
           sudo add-apt-repository ppa:ubuntu-toolchain-r/test
           sudo apt-get update
           sudo apt-get install -y gcc-13 g++-13
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 60 --slave /usr/bin/g++ g++ /usr/bin/g++-13
+          sudo update-alternatives --set gcc /usr/bin/gcc-13
+
+      - name: GCC version
+        run: |
           gcc --version
           g++ --version
 
