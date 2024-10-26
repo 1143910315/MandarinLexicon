@@ -70,7 +70,7 @@ jobs:
 
       - name: Setup GCC
         run: |
-          sudo apt-get install -y "${LATEST_GCC_PACKAGE}" g++-13
+          sudo apt-get install -y ${LATEST_GCC_PACKAGE} g++-13
           sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/${LATEST_GCC_PACKAGE} 60 --slave /usr/bin/g++ g++ /usr/bin/g++-13
           sudo update-alternatives --set gcc /usr/bin/${LATEST_GCC_PACKAGE}
 
