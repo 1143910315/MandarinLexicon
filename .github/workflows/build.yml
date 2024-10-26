@@ -64,7 +64,7 @@ jobs:
           g++ --version
           sudo add-apt-repository ppa:ubuntu-toolchain-r/test
           sudo apt-get update
-          sudo apt-get upgrade
+          sudo apt-get install -y gcc-13 g++-13
           gcc --version
           g++ --version
 
