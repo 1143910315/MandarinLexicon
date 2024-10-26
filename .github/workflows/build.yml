@@ -63,6 +63,13 @@ jobs:
           sudo add-apt-repository ppa:ubuntu-toolchain-r/test
           sudo apt-get update
 
+      - name: Last GCC package
+        run: |
+          apt-cache search gcc | grep '^gcc-\d+\s' | sort -rV
+          apt-cache search gcc | grep '^gcc-\d+\s' | sort -rV | head -n 1 | cut -d ' ' -f 1
+          LATEST_GCC_PACKAGE=$(apt-cache search gcc | grep '^gcc-\d+\s' | sort -rV | head -n 1 | cut -d ' ' -f 1)
+          echo "LATEST_GCC_PACKAGE=$LATEST_GCC_PACKAGE" >> $GITHUB_ENV
+
       - name: List available GCC versions
         run: |
           apt-cache search gcc | grep '^gcc-' | grep -v 'multilib$'
@@ -70,9 +77,9 @@ jobs:
 
       - name: Setup GCC
         run: |
-          sudo apt-get install -y gcc-13 g++-13
-          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 60 --slave /usr/bin/g++ g++ /usr/bin/g++-13
-          sudo update-alternatives --set gcc /usr/bin/gcc-13
+          sudo apt-get install -y $LATEST_GCC_PACKAGE g++-13
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/$LATEST_GCC_PACKAGE 60 --slave /usr/bin/g++ g++ /usr/bin/g++-13
+          sudo update-alternatives --set gcc /usr/bin/$LATEST_GCC_PACKAGE
 
       - name: GCC version
         run: |
