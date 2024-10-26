@@ -63,9 +63,33 @@ jobs:
           sudo add-apt-repository ppa:ubuntu-toolchain-r/test
           sudo apt-get update
 
-      - name: List GCC package
+      - name: List GCC package1
         run: |
           apt-cache search gcc | grep '^gcc-\d'
+          
+      - name: List GCC package2
+        run: |
+          apt-cache search gcc | grep '^gcc-\d*'
+          
+      - name: List GCC package3
+        run: |
+          apt-cache search gcc | grep '^gcc-\d+'
+          
+      - name: List GCC package4
+        run: |
+          apt-cache search gcc | grep '^gcc-\d*\s'
+          
+      - name: List GCC package5
+        run: |
+          apt-cache search gcc | grep '^gcc-\d+\s'
+          
+      - name: List GCC package6
+        run: |
+          apt-cache search gcc | grep '^gcc-\d*\S'
+          
+      - name: List GCC package7
+        run: |
+          apt-cache search gcc | grep '^gcc-\d+\S'
 
       - name: Last GCC package
         id: gcc-package
