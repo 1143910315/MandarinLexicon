@@ -64,15 +64,16 @@ jobs:
           sudo apt-get update
 
       - name: Last GCC package
+        id: gcc-package
         run: |
           LATEST_GCC_PACKAGE=$(apt-cache search gcc | grep '^gcc-\d+\s' | sort -rV | head -n 1 | cut -d ' ' -f 1)
-          echo "LATEST_GCC_PACKAGE=$LATEST_GCC_PACKAGE" >> $GITHUB_ENV
+          echo "::set-output name=latest_gcc_package::$LATEST_GCC_PACKAGE"
 
       - name: Setup GCC
         run: |
-          sudo apt-get install -y ${LATEST_GCC_PACKAGE} g++-13
-          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/${LATEST_GCC_PACKAGE} 60 --slave /usr/bin/g++ g++ /usr/bin/g++-13
-          sudo update-alternatives --set gcc /usr/bin/${LATEST_GCC_PACKAGE}
+          sudo apt-get install -y ${{ steps.gcc-package.outputs.latest_gcc_package }} g++-13
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/${{ steps.gcc-package.outputs.latest_gcc_package }} 60 --slave /usr/bin/g++ g++ /usr/bin/g++-13
+          sudo update-alternatives --set gcc /usr/bin/${{ steps.gcc-package.outputs.latest_gcc_package }}
 
       - name: GCC version
         run: |
