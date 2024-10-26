@@ -31,10 +31,10 @@ jobs:
           xmake f -a x64 -m ${{ matrix.mode }} -p windows -v -y
 
       - run: |
-          xmake -v -w -y
+          xmake -v -y
 
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ github.event.repository.name }}-${{ matrix.mode }}-windows-x64-${{ github.sha }}
           path: |
-            build/windows/x64/release/
+            build/windows/x64/${{ matrix.mode }}/
