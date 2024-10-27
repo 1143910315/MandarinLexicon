@@ -10,12 +10,12 @@ jobs:
         config:
           - { mode: debug, arch: x86, platform: windows }
           - { mode: debug, arch: x64, platform: windows }
-          - { mode: debug, arch: arm, platform: windows }
+          # - { mode: debug, arch: arm, platform: windows }
           - { mode: debug, arch: arm64, platform: windows }
           # - { mode: debug, arch: arm64ec, platform: windows }
           - { mode: release, arch: x86, platform: windows }
           - { mode: release, arch: x64, platform: windows }
-          - { mode: release, arch: arm, platform: windows }
+          # - { mode: release, arch: arm, platform: windows }
           - { mode: release, arch: arm64, platform: windows }
           # - { mode: release, arch: arm64ec, platform: windows }
     runs-on: windows-latest
