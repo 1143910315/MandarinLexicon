@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AutoVisualizer xmlns="http://schemas.microsoft.com/vstudio/debugger/natvis/2010">
+  <Type Name="nlohmann::json_abi_v3_11_3::basic_json&lt;*&gt;">
+    <DisplayString Condition="m_data.m_type == 0">null</DisplayString>
+    <DisplayString Condition="m_data.m_type == 1">object</DisplayString>
+    <DisplayString Condition="m_data.m_type == 2">array</DisplayString>
+    <DisplayString Condition="m_data.m_type == 3">{m_data.m_value.string,na}</DisplayString>
+    <DisplayString Condition="m_data.m_type == 4">boolean</DisplayString>
+    <DisplayString Condition="m_data.m_type == 5">number_integer</DisplayString>
+    <DisplayString Condition="m_data.m_type == 6">number_unsigned</DisplayString>
+    <DisplayString Condition="m_data.m_type == 7">number_float</DisplayString>
+    <DisplayString Condition="m_data.m_type == 8">binary</DisplayString>
+    <DisplayString Condition="m_data.m_type == 9">discarded</DisplayString>
+    <DisplayString>unkown</DisplayString>
+    <Expand>
+      <Item Name="[data]" Condition="m_data.m_type == 1">m_data.m_value.object</Item>
+      <Item Name="[data]" Condition="m_data.m_type == 2">m_data.m_value.array</Item>
+      <Item Name="[data]" Condition="m_data.m_type == 4">m_data.m_value.boolean</Item>
+      <Item Name="[data]" Condition="m_data.m_type == 5">m_data.m_value.number_integer</Item>
+      <Item Name="[data]" Condition="m_data.m_type == 6">m_data.m_value.number_unsigned</Item>
+      <Item Name="[data]" Condition="m_data.m_type == 7">m_data.m_value.number_float</Item>
+      <Item Name="[data]" Condition="m_data.m_type == 8">m_data.m_value.binary</Item>
+    </Expand>
+  </Type>
+</AutoVisualizer>
+
+<!-- nlohmann::json_abi_v3_11_3::basic_json&lt;std::map,std::vector,std::string,bool,__int64,unsigned __int64,double,std::allocator,nlohmann::json_abi_v3_11_3::adl_serializer,std::vector&lt;unsigned char,std::allocator&lt;unsigned char&gt;&gt;,void&gt; -->

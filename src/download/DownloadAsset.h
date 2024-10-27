@@ -1,8 +1,6 @@
 #pragma once
-namespace download
-{
-    class DownloadAsset
-    {
+namespace download {
+    class DownloadAsset {
     private:
         DownloadAsset() = default;
         ~DownloadAsset() = default;
@@ -10,9 +8,7 @@ namespace download
         DownloadAsset(const DownloadAsset& single) = delete;
         // 禁止外部赋值操作
         const DownloadAsset& operator=(const DownloadAsset& single) = delete;
-        public:
+    public:
         static void downloadUnihan();
     };
-    
-    
 } // namespace download
