@@ -8,6 +8,5 @@ std::shared_ptr<command::Command> command::Command::instance() {
     std::call_once(flag, []() {
         single = std::make_shared<CommandDispatch>();
     });
-    *(*single).instance();
     return single;
 }
