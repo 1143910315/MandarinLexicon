@@ -50,7 +50,8 @@ jobs:
     strategy:
       matrix:
         config:
-          - { mode: release, arch: x86_64, platform: linux }
+          - { mode: debug, platform: linux }
+          - { mode: release, platform: linux }
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -93,14 +94,20 @@ jobs:
       - run: |
           xmake repo -u
 
+      - name: Cheak OS Arch
+        id: os-arch
+        run: |
+          XMAKE_OS_ARCH=$(axmake l os.subarch)
+          echo "xmake_os_arch=$XMAKE_OS_ARCH" >> $GITHUB_OUTPUT
+
       - run: |
-          xmake f --toolchain=${{ steps.gcc-package.outputs.latest_gcc_package }} -c -a ${{ matrix.config.arch }} -m ${{ matrix.config.mode }} -v -y
+          xmake f --toolchain=${{ steps.gcc-package.outputs.latest_gcc_package }} -c -m ${{ matrix.config.mode }} -v -y
 
       - run: |
           xmake -v -y
 
       - uses: actions/upload-artifact@v4
         with:
-          name: ${{ github.event.repository.name }}-${{ matrix.config.mode }}-${{ matrix.config.platform }}-${{ matrix.config.arch }}-${{ github.sha }}
+          name: ${{ github.event.repository.name }}-${{ matrix.config.mode }}-${{ matrix.config.platform }}-${{ steps.os-arch.outputs.xmake_os_arch }}-${{ github.sha }}
           path: |
-            build/${{ matrix.config.platform }}/${{ matrix.config.arch }}/${{ matrix.config.mode }}/
+            build/${{ matrix.config.platform }}/${{ steps.os-arch.outputs.xmake_os_arch }}/${{ matrix.config.mode }}/
