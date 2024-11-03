@@ -97,7 +97,7 @@ jobs:
       - name: Cheak OS Arch
         id: os-arch
         run: |
-          XMAKE_OS_ARCH=$(axmake l os.subarch)
+          XMAKE_OS_ARCH=$(xmake l os.subarch)
           echo "xmake_os_arch=$XMAKE_OS_ARCH" >> $GITHUB_OUTPUT
 
       - run: |
