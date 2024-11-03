@@ -50,7 +50,6 @@ jobs:
     strategy:
       matrix:
         config:
-          - { mode: debug, arch: x86_64, platform: linux }
           - { mode: release, arch: x86_64, platform: linux }
     runs-on: ubuntu-latest
     steps:
@@ -77,9 +76,11 @@ jobs:
 
       - name: Setup GCC
         run: |
-          sudo apt-get install -y ${{ steps.gcc-package.outputs.latest_gcc_package }} ${{ steps.gpp-package.outputs.latest_gpp_package }}
-          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/${{ steps.gcc-package.outputs.latest_gcc_package }} 60 --slave /usr/bin/g++ g++ /usr/bin/${{ steps.gpp-package.outputs.latest_gpp_package }}
-          sudo update-alternatives --set gcc /usr/bin/${{ steps.gcc-package.outputs.latest_gcc_package }}
+          sudo apt-get install -y ${{ steps.gcc-package.outputs.latest_gcc_package }}
+
+      - name: Setup G++
+        run: |
+          sudo apt-get install -y ${{ steps.gpp-package.outputs.latest_gpp_package }}
 
       - uses: actions/cache@v4
         with:
@@ -93,7 +94,7 @@ jobs:
           xmake repo -u
 
       - run: |
-          xmake f -a ${{ matrix.config.arch }} -m ${{ matrix.config.mode }} -v -y
+          xmake f --toolchain=${{ steps.gcc-package.outputs.latest_gcc_package }} -c -a ${{ matrix.config.arch }} -m ${{ matrix.config.mode }} -v -y
 
       - run: |
           xmake -v -y
