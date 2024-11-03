@@ -1,5 +1,4 @@
 #include "Trie.h"
-#include <format>
 
 algorithm::Trie &algorithm::Trie::insert(const std::string &word) {
     insert(icu::UnicodeString::fromUTF8(word), 0);

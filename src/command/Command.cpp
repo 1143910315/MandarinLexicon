@@ -1,5 +1,6 @@
 #include "Command.h"
 #include "CommandCallback.h"
+#include <format>
 #include <iostream>
 #include <mutex>
 
