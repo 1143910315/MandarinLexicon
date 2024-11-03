@@ -11,6 +11,6 @@ namespace database {
     public:
         static void init();
     private:
-        static void removeQuotes(std::string& str);
+        static std::string& removeQuotes(std::string& str);
     };
 } // namespace database

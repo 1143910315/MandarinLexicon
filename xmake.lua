@@ -7,11 +7,11 @@ else
     set_runtimes("MD")
 end
 
-add_requires("icu4c")
-add_requires("nlohmann_json")
-add_requires("leveldb")
-add_requires("cpp-httplib", {configs = {ssl = true}})
-add_requireconfs("cpp-httplib.openssl3", {override = true, version = "3.3.1"})
+add_requires("icu4c", {debug = true})
+add_requires("nlohmann_json", {debug = true})
+add_requires("leveldb", {debug = true})
+add_requires("cpp-httplib", {configs = {ssl = true}, debug = true})
+add_requireconfs("cpp-httplib.openssl3", {override = true, version = "3.3.1", debug = true})
 
 target("MandarinLexicon")
     add_cxflags(
