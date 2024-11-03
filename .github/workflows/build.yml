@@ -97,11 +97,11 @@ jobs:
       - name: Cheak OS Arch
         id: os-arch
         run: |
-          XMAKE_OS_ARCH=$(xmake l os.subarch)
+          XMAKE_OS_ARCH=$(xmake l os.subarch | tr -d '"')
           echo "xmake_os_arch=$XMAKE_OS_ARCH" >> $GITHUB_OUTPUT
 
       - run: |
-          xmake f --toolchain=${{ steps.gcc-package.outputs.latest_gcc_package }} -c -m ${{ matrix.config.mode }} -v -y
+          xmake f --toolchain=${{ steps.gcc-package.outputs.latest_gcc_package }} -c -a ${{ steps.os-arch.outputs.xmake_os_arch }} -m ${{ matrix.config.mode }} -v -y
 
       - run: |
           xmake -v -y
