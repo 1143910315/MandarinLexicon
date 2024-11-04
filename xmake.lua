@@ -15,9 +15,10 @@ add_requireconfs("cpp-httplib.openssl3", {override = true, version = "3.3.1", de
 
 target("MandarinLexicon")
     add_cxflags(
-        "/utf-8",
-        "/W4",
-        "/INCREMENTAL"
+        "cl::/utf-8",
+        "cl::/W4",
+        "gcc::-Wall",
+        "cl::/INCREMENTAL"
     )
     add_packages(
         "icu4c",
