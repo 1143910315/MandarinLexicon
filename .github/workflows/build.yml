@@ -69,24 +69,20 @@ jobs:
           LATEST_GCC_PACKAGE=$(apt-cache search gcc | grep '^gcc-[0-9]* ' | sort -rV | head -n 1 | cut -d ' ' -f 1)
           echo "latest_gcc_package=$LATEST_GCC_PACKAGE" >> $GITHUB_OUTPUT
 
-      - name: Last Gpp package
+      - name: Last G++ package
         id: gpp-package
         run: |
           LATEST_GPP_PACKAGE=$(apt-cache search g++ | grep '^g++-[0-9]* ' | sort -rV | head -n 1 | cut -d ' ' -f 1)
           echo "latest_gpp_package=$LATEST_GPP_PACKAGE" >> $GITHUB_OUTPUT
 
-      - name: Setup GCC
+      - name: Setup GCC&G++
         run: |
-          sudo apt-get install -y ${{ steps.gcc-package.outputs.latest_gcc_package }}
-
-      - name: Setup G++
-        run: |
-          sudo apt-get install -y ${{ steps.gpp-package.outputs.latest_gpp_package }}
+          sudo apt-get install -y ${{ steps.gcc-package.outputs.latest_gcc_package }} ${{ steps.gpp-package.outputs.latest_gpp_package }}
 
       - uses: actions/cache@v4
         with:
           path: |
-            ~/AppData/Local/.xmake
+            ~/.xmake
           key: xmake-${{ hashFiles('xmake.lua') }}
           restore-keys: |
             xmake-
