@@ -1,10 +1,10 @@
 #include "algorithm/Trie.h"
 #include "CreateDatabase.h"
+#include "utils/Defer.hpp"
 #include <format>
 #include <fstream>
 #include <functional>
 #include <iostream>
-#include <leveldb/db.h>
 #include <leveldb/status.h>
 #include <leveldb/write_batch.h>
 #include <map>
@@ -14,7 +14,7 @@
 #include <unicode/ustream.h>
 #include <unicode/utf8.h>
 
-bool database::CreateDatabase::readingsToDatabase(std::string textFileName, std::string databaseDirectory) {
+bool database::CreateDatabase::readingsToDatabase(std::string textFileName, std::shared_ptr<std::unique_ptr<leveldb::DB>> database) {
     static std::map<icu::UnicodeString, icu::UnicodeString> charMap = {
         { icu::UnicodeString::fromUTF8("ā"), icu::UnicodeString::fromUTF8("a") },
         { icu::UnicodeString::fromUTF8("á"), icu::UnicodeString::fromUTF8("a") },
@@ -49,25 +49,9 @@ bool database::CreateDatabase::readingsToDatabase(std::string textFileName, std:
         std::cerr << "无法打开文件: " << textFileName << std::endl;
         return false;
     }
-
-    // 创建LevelDB数据库选项
-    auto options = leveldb::Options();
-    // 如果目录不存在，则创建它
-    options.create_if_missing = true;
-    // 打开或创建LevelDB数据库
-    leveldb::DB *db;
-    leveldb::Status status = leveldb::DB::Open(options, databaseDirectory, &db);
-
-    if (!status.ok()) {
-        std::cerr << "LevelDB初始化失败: " << status.ToString() << std::endl;
-        return false;
-    }
-    // 使用std::unique_ptr和自定义删除器来管理数据库的生命周期
-    auto dbPtr = std::unique_ptr<leveldb::DB, std::function<void(leveldb::DB *)>>(db, [&inputFile](leveldb::DB *db) {
-        // 关闭文件
-        inputFile.close();
-        delete db;
-    });
+    utils::Defer defer = [&inputFile]() {
+            inputFile.close();
+        };
 
     icu::UnicodeString keyUnicodeString;
     std::string line;
@@ -128,16 +112,16 @@ bool database::CreateDatabase::readingsToDatabase(std::string textFileName, std:
     // 使用WriteBatch批量写入数据
     leveldb::WriteBatch batch;
     for (auto& [key, value] : readingCodeJson.items()) {
-        batch.Put(std::string("readingToCode_") + key, value.dump());
+        batch.Put(std::format("readingToCode_{}", key), value.dump());
     }
     for (auto& [key, value] : codeReadingJson.items()) {
-        batch.Put(std::string("codeToReading_") + key, value.dump());
+        batch.Put(std::format("codeToReading_{}", key), value.dump());
     }
     nlohmann::json readingTrieJson;
     nlohmann::to_json(readingTrieJson, trie);
     batch.Put("reading_Trie", readingTrieJson.dump());
 
-    status = db->Write(leveldb::WriteOptions(), &batch);
+    auto status = (*database)->Write(leveldb::WriteOptions(), &batch);
     if (!status.ok()) {
         std::cerr << "批量写入数据失败: " << status.ToString() << std::endl;
         return false;

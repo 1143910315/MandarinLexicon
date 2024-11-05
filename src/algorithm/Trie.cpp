@@ -21,18 +21,19 @@ bool algorithm::Trie::search(const icu::UnicodeString &word) {
 void algorithm::Trie::search(const std::string &word, std::vector<std::string> &result) {
     result.clear();
     auto prefix = icu::UnicodeString::fromUTF8(word);
-    algorithm::Trie &next = *this;
+    algorithm::Trie *next = this;
     icu::UnicodeString codePoint;
     std::string key;
     for (int32_t i = 0; i < prefix.length(); i = prefix.moveIndex32(i, 1)) {
         codePoint.setTo(prefix.char32At(i));
-        if (next.children.contains(codePoint.toUTF8String(key))) {
-            next = next.children[key];
+        key.clear();
+        if (next->children.contains(codePoint.toUTF8String(key))) {
+            next = &next->children[key];
         } else {
             return;
         }
     }
-    next.search(result, word);
+    next->search(result, word);
 }
 
 void algorithm::Trie::insert(const icu::UnicodeString &word, int32_t point) {
