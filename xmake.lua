@@ -3,15 +3,19 @@ add_rules("plugin.vsxmake.autoupdate")
 
 if is_mode("debug") then
     set_runtimes("MDd")
+    add_requires("icu4c", {debug = true})
+    add_requires("nlohmann_json", {debug = true})
+    add_requires("leveldb", {debug = true})
+    add_requires("cpp-httplib", {configs = {ssl = true}, debug = true})
+    add_requireconfs("cpp-httplib.openssl3", {override = true, version = "3.3.1", debug = true})
 else
     set_runtimes("MD")
+    add_requires("icu4c")
+    add_requires("nlohmann_json")
+    add_requires("leveldb")
+    add_requires("cpp-httplib", {configs = {ssl = true}})
+    add_requireconfs("cpp-httplib.openssl3", {override = true, version = "3.3.1"})
 end
-
-add_requires("icu4c", {debug = true})
-add_requires("nlohmann_json", {debug = true})
-add_requires("leveldb", {debug = true})
-add_requires("cpp-httplib", {configs = {ssl = true}, debug = true})
-add_requireconfs("cpp-httplib.openssl3", {override = true, version = "3.3.1", debug = true})
 
 target("MandarinLexicon")
     add_cxflags(
