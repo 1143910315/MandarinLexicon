@@ -1,4 +1,5 @@
 #include "UseDatabase.h"
+#include <format>
 
 database::UseDatabase::UseDatabase(std::shared_ptr<std::unique_ptr<leveldb::DB>> database) : database(database) {
     std::string value;
