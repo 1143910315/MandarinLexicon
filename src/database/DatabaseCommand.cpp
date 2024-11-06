@@ -52,15 +52,15 @@ void database::DatabaseCommand::init() {
         return true;
     });
     useDatabaseCommand->addCommand("根据拼音查找汉字", [database]() {
-        std::string pinyin;
+        std::string prefixPinyin;
         UseDatabase useDatabase = database;
         while (true) {
             std::cout << "请输入拼音:";
-            std::cin >> pinyin;
+            std::cin >> prefixPinyin;
             if (!std::cin) {
                 break;
             }
-            for (auto& pinyin : useDatabase.searchPinyin(pinyin)) {
+            for (auto& pinyin : useDatabase.searchPinyin(prefixPinyin)) {
                 std::cout << "拼音：" << pinyin << std::endl;
                 std::cout << "文字：";
                 for (auto& code : useDatabase.pinyinToCode(pinyin)) {

@@ -29,7 +29,7 @@ bool command::Command::execute() {
             return true;
         }
         std::string outputString = "请输入要执行的命令序号：\n";
-        for (int i = 0; i < commandList.size(); i++) {
+        for (size_t i = 0; i < commandList.size(); i++) {
             auto& [title, command] = commandList[i];
             outputString += std::format("{}.{}\n", i + 1, title);
         }
