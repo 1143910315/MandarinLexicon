@@ -78,14 +78,59 @@ jobs:
     # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
     - if: matrix.build-mode == 'manual'
       uses: xmake-io/github-action-setup-xmake@v1
-      
+
+    - if: matrix.build-mode == 'manual'
+      name: Add repository and update
+      run: |
+        sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+        sudo apt-get update
+
+    - if: matrix.build-mode == 'manual'
+      name: Last GCC package
+      id: gcc-package
+      run: |
+        LATEST_GCC_PACKAGE=$(apt-cache search gcc | grep '^gcc-[0-9]* ' | sort -rV | head -n 1 | cut -d ' ' -f 1)
+        echo "latest_gcc_package=$LATEST_GCC_PACKAGE" >> $GITHUB_OUTPUT
+
+    - if: matrix.build-mode == 'manual'
+      name: Last G++ package
+      id: gpp-package
+      run: |
+        LATEST_GPP_PACKAGE=$(apt-cache search g++ | grep '^g++-[0-9]* ' | sort -rV | head -n 1 | cut -d ' ' -f 1)
+        echo "latest_gpp_package=$LATEST_GPP_PACKAGE" >> $GITHUB_OUTPUT
+
+    - if: matrix.build-mode == 'manual'
+      name: Setup GCC&G++
+      run: |
+        sudo apt-get install -y ${{ steps.gcc-package.outputs.latest_gcc_package }} ${{ steps.gpp-package.outputs.latest_gpp_package }}
+
+    - if: matrix.build-mode == 'manual'
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.xmake
+        key: xmake-${{ hashFiles('xmake.lua') }}
+        restore-keys: |
+          xmake-
+
     - if: matrix.build-mode == 'manual'
       run: |
-          xmake repo -u
-          
+        xmake repo -u
+
+    - if: matrix.build-mode == 'manual'
+      name: Cheak OS Arch
+      id: os-arch
+      run: |
+        XMAKE_OS_ARCH=$(xmake l os.subarch | sed -E 's/\^\[\[//g; s/\^\[//g; s/\x1B\[[0-9;]*[JKmsu]//g' | tr -d '"')
+        echo "xmake_os_arch=$XMAKE_OS_ARCH" >> $GITHUB_OUTPUT
+
     - if: matrix.build-mode == 'manual'
       run: |
-          xmake -y
+        xmake f --toolchain=${{ steps.gcc-package.outputs.latest_gcc_package }} -c -a ${{ steps.os-arch.outputs.xmake_os_arch }} -m release -v -y
+
+    - if: matrix.build-mode == 'manual'
+      run: |
+        xmake -y
           
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
