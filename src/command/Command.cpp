@@ -37,7 +37,7 @@ bool command::Command::execute() {
         std::cout << outputString << std::endl;
         int input;
         std::cin >> input;
-        if (input > 0 && input <= commandList.size()) {
+        if (input > 0 && static_cast<size_t>(input) <= commandList.size()) {
             auto& [title, command] = commandList[input - 1];
             if (!command->execute()) {
                 return false;
